@@ -215,7 +215,7 @@ async def on_command_error(ctx, error):
   if isinstance(error, commands.BadArgument):
     print("Required Argument")
   elif isinstance(error, commands.MissingRequiredArgument):
-    print("Required Argument")
+    print("Missing Argument")
 
 # Run The Bot
 bot.run("TOKEN") # Replace Token
