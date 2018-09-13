@@ -1,0 +1,5 @@
+requests
+beem
+discord.py
+json
+asyncio
