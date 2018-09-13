@@ -35,7 +35,7 @@ async def blog(ctx, username, amount=3):
     print("Someone asked for blog of %s" % (username))
     embed = discord.Embed(title=("DiscordSteem"), description=("Last %s Posts Of %s" % (amount, username)), color=(0x00ff00))
     for post in acc.blog_history(limit=amount, reblogs=False):
-      steem_link = "https://steemit.com/%s" % (post["url"])
+      steem_link = "https://steemit.com%s" % (post["url"])
       embed.add_field(name=(post["title"]), value=("[Check out this post!](%s)" % steem_link))
     print("Provided!")
     embed.set_footer(text="Developed By Rodux")
@@ -53,7 +53,7 @@ async def feed(ctx, username, amount=3):
     print("Someone asked for feed of %s" % (username))
     embed = discord.Embed(title=("DiscordSteem"), description=("This is the feed of %s" % (username)), color=(0x00ff00))
     for post in acc.feed_history(limit=amount):
-      steem_link = "https://steemit.com/%s" % (post["url"])
+      steem_link = "https://steemit.com%s" % (post["url"])
       embed.add_field(name=(post["title"]), value=("[Check out this post by %s!](%s)" % (post["author"], steem_link)))
     embed.set_footer(text="Developed By Rodux")
     await bot.say(embed=embed)
@@ -71,7 +71,7 @@ async def comments(ctx, username, amount=3):
     print("Someone asked for comments of %s" % (username))
     embed = discord.Embed(title=("DiscordSteem"), description=("These are last %s comments of %s" % (amount, username)), color=(0x00ff00))
     for post in acc.comment_history(limit=amount):
-      steem_link = "https://steemit.com/%s" % (post["url"])
+      steem_link = "https://steemit.com%s" % (post["url"])
       embed.add_field(name=(post["root_title"]), value=("[Check out this comment!](%s)" % steem_link))
     embed.set_footer(text="Developed By Rodux")
     await bot.say(embed=embed)
@@ -167,7 +167,7 @@ async def contributions(ctx, username, amount=3):
     embed = discord.Embed(title="DiscordSteem", description="Utopian Contributions Of %s" % username, color=0x00ff00)
     embed.set_footer(text="Developed By Rodux")
     for post in acc.blog_history(limit=250, reblogs=False):
-      steem_link = "https://steemit.com/%s" % (post["url"])
+      steem_link = "https://steemit.com%s" % (post["url"])
       if i != amount:
         if "utopian-io" in post["tags"]:
           if "tutorials" in post["tags"]:
