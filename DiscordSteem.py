@@ -20,7 +20,6 @@ nodes = NodeList()
 nodes.update_nodes()
 stm = Steem(node=nodes.get_nodes())
 set_shared_steem_instance(stm)
-
 notes = {}
 
 # Print When Ready
