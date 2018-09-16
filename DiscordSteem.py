@@ -51,7 +51,7 @@ async def feed(ctx, username, amount=3):
   try:
     acc = Account(username.lower())
     print(f"Someone asked for feed of {username}")
-    embed = discord.Embed(title=("DiscordSteem"), description=("This is the feed of %s" % (username)), color=(0x00ff00))
+    embed = discord.Embed(title=("DiscordSteem"), description=(f"This is the feed of {username}"), color=(0x00ff00))
     for post in acc.feed_history(limit=amount):
       steem_link = f"https://steemit.com/@{post['author']}/{post['permlink']}"
       embed.add_field(name=(post["title"]), value=(f"[Check out this post by {post['author']}!]({steem_link})"))
@@ -69,7 +69,7 @@ async def comments(ctx, username, amount=3):
   try:
     acc = Account(username.lower())
     print(f"Someone asked for comments of {username}")
-    embed = discord.Embed(title=("DiscordSteem"), description=("These are last %s comments of %s" % (amount, username)), color=(0x00ff00))
+    embed = discord.Embed(title=("DiscordSteem"), description=(f"These are last {amount} comments of {username}"), color=(0x00ff00))
     for post in acc.comment_history(limit=amount):
       steem_link = f"https://steemit.com/@{post['author']}/{post['permlink']}"
       embed.add_field(name=(post["root_title"]), value=(f"[Check out this comment!]({steem_link})"))
@@ -169,7 +169,7 @@ async def contributions(ctx, username, amount=3):
     i = 0
     acc = Account(username.lower())
     print(f"Someone asked for contributions of {username}")
-    embed = discord.Embed(title="DiscordSteem", description="Utopian Contributions Of %s" % username, color=0x00ff00)
+    embed = discord.Embed(title="DiscordSteem", description=f"Utopian Contributions Of {username}", color=0x00ff00)
     embed.set_footer(text="Developed By Rodux")
     for post in acc.blog_history(limit=250, reblogs=False):
       steem_link = f"https://steemit.com/@{post['author']}/{post['permlink']}"
