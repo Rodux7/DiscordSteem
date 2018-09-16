@@ -97,7 +97,6 @@ async def info(ctx, username):
     embed.add_field(name=("STEEM Balance"), value=(acc["balance"]))
     embed.add_field(name=("SBD Balance"), value=(acc["sbd_balance"]))
     embed.add_field(name=("Witnesses Voted"), value=(acc["witnesses_voted_for"]))
-    embed.add_field(name=("Witnesses Voted"), value=(acc["witnesses_voted_for"]))
     embed.add_field(name=("Steem Power"), value=(f"{format(int(stm.vests_to_sp(acc['vesting_shares'])), ',d')} (+{format(int(stm.vests_to_sp(acc['received_vesting_shares'])), ',d')})"))
     embed.set_footer(text="Developed By Rodux")
     await bot.say(embed=embed)
