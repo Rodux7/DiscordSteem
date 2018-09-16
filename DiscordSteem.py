@@ -33,7 +33,7 @@ async def blog(ctx, username, amount=3):
   try:
     acc = Account(username.lower())
     print(f"Someone asked for blog of {username}")
-    embed = discord.Embed(title=("DiscordSteem"), description=(f"Last {amount} posts of {username}"), color=(0x00ff00))
+    embed = discord.Embed(title=("DiscordSteem"), description=(f"Last {amount} posts of {username.title()}"), color=(0x00ff00))
     for post in acc.blog_history(limit=amount, reblogs=False):
       steem_link = f"https://steemit.com/@{post['author']}/{post['permlink']}"
       embed.add_field(name=(post["title"]), value=(f"[Check out this post by {post['author']}!]({steem_link})"))
@@ -51,7 +51,7 @@ async def feed(ctx, username, amount=3):
   try:
     acc = Account(username.lower())
     print(f"Someone asked for feed of {username}")
-    embed = discord.Embed(title=("DiscordSteem"), description=(f"This is the feed of {username}"), color=(0x00ff00))
+    embed = discord.Embed(title=("DiscordSteem"), description=(f"This is the feed of {username.title()}"), color=(0x00ff00))
     for post in acc.feed_history(limit=amount):
       steem_link = f"https://steemit.com/@{post['author']}/{post['permlink']}"
       embed.add_field(name=(post["title"]), value=(f"[Check out this post by {post['author']}!]({steem_link})"))
@@ -69,7 +69,7 @@ async def comments(ctx, username, amount=3):
   try:
     acc = Account(username.lower())
     print(f"Someone asked for comments of {username}")
-    embed = discord.Embed(title=("DiscordSteem"), description=(f"These are last {amount} comments of {username}"), color=(0x00ff00))
+    embed = discord.Embed(title=("DiscordSteem"), description=(f"These are last {amount} comments of {username.title()}"), color=(0x00ff00))
     for post in acc.comment_history(limit=amount):
       steem_link = f"https://steemit.com/@{post['author']}/{post['permlink']}"
       embed.add_field(name=(post["root_title"]), value=(f"[Check out this comment!]({steem_link})"))
@@ -87,15 +87,29 @@ async def info(ctx, username):
   try:
     acc = Account(username.lower())
     print(f"Someone asked for info of {username}")
-    embed = discord.Embed(title=(username), description=(acc.profile["about"]), color=(0x00ff00))
-    profile = acc.json_metadata["profile"]
-    embed.set_thumbnail(url=(profile["profile_image"]))
+    if "profile" in acc["json_metadata"]:
+      profile = acc.json_metadata["profile"]
+      if "about" in profile and "profile_image" in profile:
+        embed = discord.Embed(title=(username.title()), description=(acc.profile["about"]), color=(0x00ff00))
+        embed.set_thumbnail(url=(profile["profile_image"]))
+      elif "about" in profile:
+        embed = discord.Embed(title=(username.title()), description=(acc.profile["about"]), color=(0x00ff00))
+        embed.set_thumbnail(url=("https://s15.postimg.cc/9iolrcikb/Logo_Makr_0bbvkt.png"))
+      elif "profile_image" in profile:
+        embed = discord.Embed(title=(username.title()), color=(0x00ff00))
+        embed.set_thumbnail(url=(profile["profile_image"]))
+      else:
+        embed = discord.Embed(title=(username.title()), color=(0x00ff00))
+        embed.set_thumbnail(url=("https://s15.postimg.cc/9iolrcikb/Logo_Makr_0bbvkt.png"))
+    else:
+      embed = discord.Embed(title=(username.title()), color=(0x00ff00))
+      embed.set_thumbnail(url=("https://s15.postimg.cc/9iolrcikb/Logo_Makr_0bbvkt.png"))
     embed.add_field(name=("Reputation"), value=(int(acc.rep)))
-    embed.add_field(name=("Followers"), value=(len(acc.get_followers())))
-    embed.add_field(name=("Accounts Following"), value=(len(acc.get_following())))
-    embed.add_field(name=("Number Of Posts"), value=(acc["post_count"]))
-    embed.add_field(name=("STEEM Balance"), value=(acc["balance"]))
-    embed.add_field(name=("SBD Balance"), value=(acc["sbd_balance"]))
+    embed.add_field(name=("Followers"), value=(f"{format(len(acc.get_followers()), ',d')}"))
+    embed.add_field(name=("Accounts Following"), value=(f"{format(len(acc.get_following()), ',d')}"))
+    embed.add_field(name=("Number Of Posts"), value=(f"{format(int(acc['post_count']), ',d')}"))
+    embed.add_field(name=("STEEM Balance"), value=(f"{format(int(int(acc['balance']) / 1000), ',d')}"))
+    embed.add_field(name=("SBD Balance"), value=(f"{format(int(int(acc['sbd_balance']) / 1000), ',d')}"))
     embed.add_field(name=("Witnesses Voted"), value=(acc["witnesses_voted_for"]))
     embed.add_field(name=("Steem Power"), value=(f"{format(int(stm.vests_to_sp(acc['vesting_shares'])), ',d')} (+{format(int(stm.vests_to_sp(acc['received_vesting_shares'])), ',d')})"))
     embed.set_footer(text="Developed By Rodux")
@@ -105,7 +119,7 @@ async def info(ctx, username):
     print("Someone wrote incorrect account name while using info command")
     embed = discord.Embed(title=("DiscordSteem"), description=("The account doesn't exists!"), color=(0x00ff00))
     embed.set_footer(text="Developed By Rodux")
-    await bot.say(embed=embed)   
+    await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
 async def ticker(ctx, coin, currency="usd"):
@@ -168,7 +182,7 @@ async def contributions(ctx, username, amount=3):
     i = 0
     acc = Account(username.lower())
     print(f"Someone asked for contributions of {username}")
-    embed = discord.Embed(title="DiscordSteem", description=f"Utopian Contributions Of {username}", color=0x00ff00)
+    embed = discord.Embed(title="DiscordSteem", description=f"Utopian Contributions Of {username.title()}", color=0x00ff00)
     embed.set_footer(text="Developed By Rodux")
     for post in acc.blog_history(limit=250, reblogs=False):
       steem_link = f"https://steemit.com/@{post['author']}/{post['permlink']}"
