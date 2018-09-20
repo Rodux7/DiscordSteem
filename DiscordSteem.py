@@ -11,8 +11,6 @@ from beem.comment import Comment
 from beem.instance import set_shared_steem_instance
 from beem.nodelist import NodeList
 from beem import Steem
-from bson.errors import *
-
 
 # Variables
 bot = commands.Bot(command_prefix="!")
